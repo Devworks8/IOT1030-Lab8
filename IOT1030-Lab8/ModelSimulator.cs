@@ -123,10 +123,36 @@ namespace Psim
 
 		private static void DriftPhonons(List<Cell> cells, double time)
 		{
+			
 			foreach (var cell in cells)
 			{
 				// Drift the phonons!
-				throw new NotImplementedException();
+				
+
+				var phonons = cell.Phonons;
+                for (int i = phonons.Count-1; i >= 0; --i)
+                {
+					var p = phonons[i];
+					p.DriftTime = (p.DriftTime <= 0) ? time : p.DriftTime;
+					Cell phononCell = cell;
+                    do
+                    {
+						SurfaceLocation? loc = phononCell.MoveToNearestSurface(p);
+						if (loc != null) { phononCell = phononCell.GetSurface(loc.Value).HandlePhonon(p); }
+                    } 
+					while (p.DriftTime > 0);
+					// Phonon leaves the cell
+					if (phononCell != cell || !p.Active)
+                    {
+						// Transition surface collision
+						if (p.Active) { phononCell.AddIncPhonon(p); }
+						// Remove the phonon from phonons
+						phonons[i] = phonons[phonons.Count - 1];
+						phonons.RemoveAt(phonons.Count - 1);
+						// phonons.RemoveAt(i);
+                    }
+
+                }
 			}
 		}
 

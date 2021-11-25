@@ -91,7 +91,7 @@ namespace Psim.ModelComponents
 
 		private void UpdateParams()
 		{
-			Temperature = temperatures[^1];
+			Temperature = temperatures[temperatures.Count - 1];
 			BaseTable = Material.BaseData(Temperature, out heatCapacity);
 			ScatterTable = Material.ScatterTable(Temperature);
 		}

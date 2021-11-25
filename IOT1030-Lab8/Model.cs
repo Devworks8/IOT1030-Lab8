@@ -14,7 +14,7 @@ namespace Psim
 	class Model
 	{
 		private const double TIME_STEP = 5e-12;
-		private const int NUM_PHONONS = 100000;
+		private const int NUM_PHONONS = 10000000;
 		private Material material;
 		private List<Cell> cells = new List<Cell>() { };
 		private List<Sensor> sensors = new List<Sensor>() { };
